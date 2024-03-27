@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -9,43 +10,70 @@ public class Main {
      * Write a Java program to solve this challenge. The program should find all unique triplets in the given
      * array that sum up to the target sum.
      * input:
+     * t: the number of test cases.
+     * each test case:
      * n s
      * a[0] a[1] ... a[n-1]
      * n: size of the array.
      * s: expected sum.
      * a[i]: the i-th element value in the array.
-     * - - - -
-     * 3 9
-     * 1 3 40
-     * - - - -
      * output:
-     * x: the answer to the problem.
+     * for each test case:
+     * the number of triplets is x
+     * x line where each line is
+     * x y z
+     * where: x + y + z = s
+     * - - - -
+     * solution explanation:
+     * TODO: explain the solution
+     * time complexity: O(n^2)
+     * space complexity: O(1)
      **/
-    private static Scanner initializeInputFile() {
-        String inputFile = "input.txt";
+    static Scanner scanner;
+
+    static void initializeIOFiles() {
         try {
-            return new Scanner(new File(inputFile));
+            scanner = new Scanner(new File("input.txt"));
+            System.setOut(new PrintStream("output.txt"));
         } catch (FileNotFoundException e) {
-            System.err.println("Input file not found: " + e.getMessage());
-            return null;
+            System.err.println("File not found: " + e.getMessage());
+            System.exit(404);
         }
     }
 
-    private static void initializeOutputFile() {
-        String outputFile = "output.txt";
-        try {
-            System.setOut(new PrintStream(outputFile));
-        } catch (FileNotFoundException e) {
-            System.err.println("Output file not found: " + e.getMessage());
+    static void solve(int t) {
+        System.out.println("Test case: " + t);
+        int numberOfTriplets = 0;
+        int n = scanner.nextInt();
+        int sum = scanner.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+        Arrays.sort(a);
+        for (int i = 0; i < n - 3; i++) {
+            int j = i + 1;
+            int k = n - 1;
+            while (j != k) {
+                long x = a[i] + a[j] + a[k];
+                if (x == sum){
+                    numberOfTriplets  += 1;
+                    System.out.println(a[i] + " " + a[j] + " " + a[k]);
+                }
+                if (x > sum) k--;
+                else j++;
+            }
+        }
+        if(numberOfTriplets == 0){
+            System.out.println("No triplet where found");
         }
     }
-
 
     public static void main(String[] args) {
-        Scanner scanner = initializeInputFile();
-        initializeOutputFile();
-        if (scanner == null) {
-            System.exit(404);
+        initializeIOFiles();
+        int t = scanner.nextInt();
+        for (int i = 1; i <= t; i++) {
+            solve(i);
         }
     }
 }
