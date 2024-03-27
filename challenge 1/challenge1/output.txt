@@ -1,0 +1,4 @@
+33
+3
+3
+This is written to output.txt
