@@ -1,6 +1,6 @@
 package maids.quiz.salesms.auditing;
 
-import com.alibou.security.user.User;
+import maids.quiz.salesms.user.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,7 @@ public class ApplicationAuditAware implements AuditorAware<Integer> {
                         .getContext()
                         .getAuthentication();
         if (authentication == null ||
-            !authentication.isAuthenticated() ||
+                !authentication.isAuthenticated() ||
                 authentication instanceof AnonymousAuthenticationToken
         ) {
             return Optional.empty();
