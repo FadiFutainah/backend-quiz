@@ -1,4 +1,4 @@
-package maids.quiz.salesms.config;
+package maids.quiz.salesms.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

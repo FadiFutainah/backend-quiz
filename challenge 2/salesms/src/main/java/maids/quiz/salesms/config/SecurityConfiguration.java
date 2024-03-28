@@ -1,6 +1,7 @@
 package maids.quiz.salesms.config;
 
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -23,7 +24,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-
+//    TODO: fix configuration
     private static final String[] WHITE_LIST_URL = {
             "**",
             "/api/v1/auth/**",

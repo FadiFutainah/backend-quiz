@@ -30,6 +30,7 @@ public class RegisterRequest {
     private String email;
 
     @Size(min = 8, max = 60)
+    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)

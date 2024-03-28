@@ -1,4 +1,4 @@
-package maids.quiz.salesms.config;
+package maids.quiz.salesms.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

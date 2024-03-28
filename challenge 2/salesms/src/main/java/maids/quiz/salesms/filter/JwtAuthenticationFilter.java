@@ -1,10 +1,11 @@
-package maids.quiz.salesms.config;
+package maids.quiz.salesms.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.service.JwtService;
 import maids.quiz.salesms.repository.TokenRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
