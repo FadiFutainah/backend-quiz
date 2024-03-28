@@ -2,6 +2,7 @@ package maids.quiz.salesms.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.auth.AuthenticationRequest;
@@ -26,7 +27,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto<RegisterResponse>> register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
         return service.register(request);
     }

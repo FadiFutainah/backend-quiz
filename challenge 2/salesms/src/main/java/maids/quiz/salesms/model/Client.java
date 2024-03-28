@@ -19,7 +19,6 @@ import java.util.List;
 @Entity
 @Accessors(chain = true)
 public class Client extends BaseEntity<Integer> implements UserDetails {
-
     @Column(nullable = false)
     private String firstname;
     private String lastname;
@@ -38,6 +37,7 @@ public class Client extends BaseEntity<Integer> implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Token> tokens;
 
