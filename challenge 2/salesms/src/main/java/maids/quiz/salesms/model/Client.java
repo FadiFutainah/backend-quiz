@@ -1,11 +1,11 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import maids.quiz.salesms.token.Token;
+import maids.quiz.salesms.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

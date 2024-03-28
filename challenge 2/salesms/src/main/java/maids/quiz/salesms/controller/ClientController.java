@@ -1,6 +1,8 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.controller;
 
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.service.ClientService;
+import maids.quiz.salesms.dto.auth.ChangePasswordRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;

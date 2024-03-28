@@ -1,4 +1,4 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

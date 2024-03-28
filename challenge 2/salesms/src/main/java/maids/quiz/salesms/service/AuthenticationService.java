@@ -1,15 +1,18 @@
-package maids.quiz.salesms.auth;
+package maids.quiz.salesms.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.dto.auth.RegisterRequest;
 import maids.quiz.salesms.config.JwtService;
-import maids.quiz.salesms.token.Token;
-import maids.quiz.salesms.token.TokenRepository;
-import maids.quiz.salesms.token.TokenType;
-import maids.quiz.salesms.client.Client;
-import maids.quiz.salesms.client.ClientRepository;
+import maids.quiz.salesms.dto.auth.AuthenticationRequest;
+import maids.quiz.salesms.dto.auth.AuthenticationResponse;
+import maids.quiz.salesms.model.Token;
+import maids.quiz.salesms.repository.TokenRepository;
+import maids.quiz.salesms.enums.TokenType;
+import maids.quiz.salesms.model.Client;
+import maids.quiz.salesms.repository.ClientRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

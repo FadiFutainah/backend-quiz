@@ -1,4 +1,4 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static maids.quiz.salesms.client.Permission.*;
+import static maids.quiz.salesms.enums.Permission.*;
 
 
 @Getter

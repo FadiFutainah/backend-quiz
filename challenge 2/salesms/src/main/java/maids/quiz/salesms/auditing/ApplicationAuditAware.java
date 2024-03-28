@@ -1,6 +1,6 @@
 package maids.quiz.salesms.auditing;
 
-import maids.quiz.salesms.client.Client;
+import maids.quiz.salesms.model.Client;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

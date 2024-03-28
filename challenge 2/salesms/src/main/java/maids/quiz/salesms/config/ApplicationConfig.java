@@ -2,7 +2,7 @@ package maids.quiz.salesms.config;
 
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.auditing.ApplicationAuditAware;
-import maids.quiz.salesms.client.ClientRepository;
+import maids.quiz.salesms.repository.ClientRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

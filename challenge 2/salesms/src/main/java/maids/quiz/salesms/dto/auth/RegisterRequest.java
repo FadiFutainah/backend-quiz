@@ -1,10 +1,10 @@
-package maids.quiz.salesms.auth;
+package maids.quiz.salesms.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import maids.quiz.salesms.client.Role;
+import maids.quiz.salesms.enums.Role;
 
 @Data
 @Builder

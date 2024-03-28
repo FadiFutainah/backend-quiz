@@ -1,14 +1,14 @@
 package maids.quiz.salesms;
 
-import maids.quiz.salesms.auth.AuthenticationService;
-import maids.quiz.salesms.auth.RegisterRequest;
+import maids.quiz.salesms.service.AuthenticationService;
+import maids.quiz.salesms.dto.auth.RegisterRequest;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import static maids.quiz.salesms.client.Role.ADMIN;
+import static maids.quiz.salesms.enums.Role.ADMIN;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")

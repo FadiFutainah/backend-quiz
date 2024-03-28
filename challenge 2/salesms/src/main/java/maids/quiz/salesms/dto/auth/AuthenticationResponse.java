@@ -1,4 +1,4 @@
-package maids.quiz.salesms.auth;
+package maids.quiz.salesms.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,9 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.service;
 
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.dto.auth.ChangePasswordRequest;
+import maids.quiz.salesms.model.Client;
+import maids.quiz.salesms.repository.ClientRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

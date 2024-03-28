@@ -1,4 +1,4 @@
-package maids.quiz.salesms.token;
+package maids.quiz.salesms.enums;
 
 public enum TokenType {
     BEARER

@@ -1,11 +1,11 @@
-package maids.quiz.salesms.token;
+package maids.quiz.salesms.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import maids.quiz.salesms.client.Client;
+import maids.quiz.salesms.enums.TokenType;
 
 @Data
 @Builder

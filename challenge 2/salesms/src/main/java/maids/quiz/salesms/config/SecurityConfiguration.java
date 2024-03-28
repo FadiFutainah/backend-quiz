@@ -13,8 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static maids.quiz.salesms.client.Permission.*;
-import static maids.quiz.salesms.client.Role.ADMIN;
+import static maids.quiz.salesms.enums.Permission.*;
+import static maids.quiz.salesms.enums.Role.ADMIN;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 

@@ -1,8 +1,12 @@
-package maids.quiz.salesms.auth;
+package maids.quiz.salesms.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.dto.auth.AuthenticationRequest;
+import maids.quiz.salesms.dto.auth.AuthenticationResponse;
+import maids.quiz.salesms.service.AuthenticationService;
+import maids.quiz.salesms.dto.auth.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

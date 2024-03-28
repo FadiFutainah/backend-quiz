@@ -1,5 +1,6 @@
-package maids.quiz.salesms.client;
+package maids.quiz.salesms.repository;
 
+import maids.quiz.salesms.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
