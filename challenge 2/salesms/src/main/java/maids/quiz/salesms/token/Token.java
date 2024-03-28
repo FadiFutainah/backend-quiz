@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import maids.quiz.salesms.user.User;
+import maids.quiz.salesms.client.Client;
 
 @Data
 @Builder
@@ -29,6 +29,6 @@ public class Token {
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    public User user;
+    @JoinColumn(name = "client_id")
+    public Client client;
 }

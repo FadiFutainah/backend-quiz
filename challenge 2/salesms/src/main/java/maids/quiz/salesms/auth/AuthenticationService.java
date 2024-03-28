@@ -8,8 +8,8 @@ import maids.quiz.salesms.config.JwtService;
 import maids.quiz.salesms.token.Token;
 import maids.quiz.salesms.token.TokenRepository;
 import maids.quiz.salesms.token.TokenType;
-import maids.quiz.salesms.user.User;
-import maids.quiz.salesms.user.UserRepository;
+import maids.quiz.salesms.client.Client;
+import maids.quiz.salesms.client.ClientRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,24 +21,24 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
+    private final ClientRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        var client = Client.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
+        var savedClient = repository.save(client);
+        var jwtToken = jwtService.generateToken(client);
+        var refreshToken = jwtService.generateRefreshToken(client);
+        saveClientToken(savedClient, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -52,21 +52,21 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail(request.getEmail())
+        var client = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        var jwtToken = jwtService.generateToken(client);
+        var refreshToken = jwtService.generateRefreshToken(client);
+        revokeAllClientTokens(client);
+        saveClientToken(client, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
     }
 
-    private void saveUserToken(User user, String jwtToken) {
+    private void saveClientToken(Client client, String jwtToken) {
         var token = Token.builder()
-                .user(user)
+                .client(client)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
@@ -75,15 +75,15 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
+    private void revokeAllClientTokens(Client client) {
+        var validClientTokens = tokenRepository.findAllValidTokenByClient(client.getId());
+        if (validClientTokens.isEmpty())
             return;
-        validUserTokens.forEach(token -> {
+        validClientTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
-        tokenRepository.saveAll(validUserTokens);
+        tokenRepository.saveAll(validClientTokens);
     }
 
     public void refreshToken(
@@ -99,12 +99,12 @@ public class AuthenticationService {
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
-            var user = this.repository.findByEmail(userEmail)
+            var client = this.repository.findByEmail(userEmail)
                     .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+            if (jwtService.isTokenValid(refreshToken, client)) {
+                var accessToken = jwtService.generateToken(client);
+                revokeAllClientTokens(client);
+                saveClientToken(client, accessToken);
                 var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)

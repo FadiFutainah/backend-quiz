@@ -1,6 +1,6 @@
 package maids.quiz.salesms.auditing;
 
-import maids.quiz.salesms.user.User;
+import maids.quiz.salesms.client.Client;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,7 @@ public class ApplicationAuditAware implements AuditorAware<Integer> {
             return Optional.empty();
         }
 
-        User userPrincipal = (User) authentication.getPrincipal();
-        return Optional.ofNullable(userPrincipal.getId());
+        Client clientPrincipal = (Client) authentication.getPrincipal();
+        return Optional.ofNullable(clientPrincipal.getId());
     }
 }

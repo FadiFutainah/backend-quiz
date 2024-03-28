@@ -1,4 +1,4 @@
-package maids.quiz.salesms.user;
+package maids.quiz.salesms.client;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,21 +17,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
-public class User implements UserDetails {
+public class Client implements UserDetails {
 
     @Id
     @GeneratedValue
     private Integer id;
     private String firstname;
     private String lastname;
+    private String address;
+    private String mobileNumber;
     private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     private List<Token> tokens;
 
     @Override

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import maids.quiz.salesms.user.Role;
+import maids.quiz.salesms.client.Role;
 
 @Data
 @Builder

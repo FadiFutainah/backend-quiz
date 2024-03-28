@@ -2,7 +2,7 @@ package maids.quiz.salesms.config;
 
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.auditing.ApplicationAuditAware;
-import maids.quiz.salesms.user.UserRepository;
+import maids.quiz.salesms.client.ClientRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository repository;
+    private final ClientRepository repository;
 
     @Bean
     public UserDetailsService userDetailsService() {

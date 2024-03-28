@@ -1,4 +1,4 @@
-package maids.quiz.salesms.user;
+package maids.quiz.salesms.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,23 +9,23 @@ import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class ClientService {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository repository;
+    private final ClientRepository repository;
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        var client = (Client) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getCurrentPassword(), client.getPassword())) {
             throw new IllegalStateException("Wrong password");
         }
         if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
             throw new IllegalStateException("Password are not the same");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        client.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
-        repository.save(user);
+        repository.save(client);
     }
 }
