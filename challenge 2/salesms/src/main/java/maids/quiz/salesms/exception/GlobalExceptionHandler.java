@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -37,6 +38,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseDto.exceptionResponse(HttpStatus.BAD_REQUEST, errors.toArray(String[]::new));
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
+        return ResponseDto.exceptionResponse(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
+    }
+
     @ExceptionHandler(CommonExceptions.ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFound(CommonExceptions.ResourceNotFoundException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
@@ -51,10 +60,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUnauthorized(CommonExceptions.UnauthorizedException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.UNAUTHORIZED, ex.getLocalizedMessage());
     }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDenied(AccessDeniedException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.UNAUTHORIZED, ex.getLocalizedMessage());
     }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleBadCredentials(AuthenticationException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
