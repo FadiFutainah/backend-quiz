@@ -21,14 +21,15 @@ public class SalesmsApplication {
     @Bean
     public CommandLineRunner commandLineRunner(AuthenticationService service) {
         return args -> {
-            var admin = RegisterRequest.builder()
-                    .firstname("Admin")
-                    .lastname("Admin")
-                    .email("admin@mail.com")
-                    .password("password")
-                    .role(ADMIN)
-                    .build();
-            System.out.println("Admin token: " + service.register(admin).getAccessToken());
+//            TODO: remove
+//            var admin = RegisterRequest.builder()
+//                    .firstname("Admin")
+//                    .lastname("Admin")
+//                    .email("admin@mail.com")
+//                    .password("password")
+//                    .role(ADMIN)
+//                    .build();
+//            System.out.println("Admin token: " + service.register(admin).getAccessToken());
         };
     }
 }
