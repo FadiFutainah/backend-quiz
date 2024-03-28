@@ -39,6 +39,7 @@ public class AuthenticationController {
         return service.login(request);
     }
 
+//    TODO: fix
     @PostMapping("/refresh-token")
     public void refreshToken(
             HttpServletRequest request,
