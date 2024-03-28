@@ -5,8 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
-import maids.quiz.salesms.dto.auth.AuthenticationRequest;
-import maids.quiz.salesms.dto.auth.AuthenticationResponse;
+import maids.quiz.salesms.dto.auth.LoginRequest;
+import maids.quiz.salesms.dto.auth.LoginResponse;
 import maids.quiz.salesms.dto.auth.RegisterRequest;
 import maids.quiz.salesms.dto.auth.RegisterResponse;
 import maids.quiz.salesms.service.AuthenticationService;
@@ -32,11 +32,11 @@ public class AuthenticationController {
         return service.register(request);
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDto<LoginResponse>> authenticate(
+            @RequestBody @Valid LoginRequest request
     ) {
-        return ResponseEntity.ok(service.authenticate(request));
+        return service.login(request);
     }
 
     @PostMapping("/refresh-token")

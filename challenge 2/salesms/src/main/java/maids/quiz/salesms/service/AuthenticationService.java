@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import maids.quiz.salesms.dto.ResponseDto;
-import maids.quiz.salesms.dto.auth.AuthenticationRequest;
-import maids.quiz.salesms.dto.auth.AuthenticationResponse;
+import maids.quiz.salesms.dto.auth.LoginRequest;
+import maids.quiz.salesms.dto.auth.LoginResponse;
 import maids.quiz.salesms.dto.auth.RegisterRequest;
 import maids.quiz.salesms.dto.auth.RegisterResponse;
 import maids.quiz.salesms.enums.TokenType;
@@ -71,7 +71,7 @@ public class AuthenticationService {
         return ResponseDto.response(data);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ResponseEntity<ResponseDto<LoginResponse>> login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -84,10 +84,11 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(client);
         revokeAllClientTokens(client);
         saveClientToken(client, jwtToken);
-        return AuthenticationResponse.builder()
+        var data = LoginResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+        return ResponseDto.response(data);
     }
 
     private void saveClientToken(Client client, String jwtToken) {
@@ -131,7 +132,7 @@ public class AuthenticationService {
                 var accessToken = jwtService.generateToken(client);
                 revokeAllClientTokens(client);
                 saveClientToken(client, accessToken);
-                var authResponse = AuthenticationResponse.builder()
+                var authResponse = LoginResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();

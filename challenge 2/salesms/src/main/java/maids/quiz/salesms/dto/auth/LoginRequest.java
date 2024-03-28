@@ -1,5 +1,6 @@
 package maids.quiz.salesms.dto.auth;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String accessToken;
-    private String refreshToken;
+public class LoginRequest {
+    @NotNull
+    private String email;
+
+    @NotNull
+    private String password;
 }
