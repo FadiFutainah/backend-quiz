@@ -20,26 +20,26 @@ import java.util.List;
 @Accessors(chain = true)
 public class Client extends BaseEntity<Integer> implements UserDetails {
     @Column(nullable = false)
-    private String firstname;
-    private String lastname;
-    private String address;
+    String firstname;
+    String lastname;
+    String address;
 
     @Column(nullable = false, unique = true)
-    private String mobileNumber;
+    String mobileNumber;
 
     @Column(unique = true)
-    private String email;
+    String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 60, nullable = false)
-    private String password;
+    String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    Role role;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Token> tokens;
+    List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

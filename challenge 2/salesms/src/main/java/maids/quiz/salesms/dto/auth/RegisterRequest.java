@@ -18,21 +18,21 @@ import maids.quiz.salesms.enums.Role;
 public class RegisterRequest {
     @NotNull
     @Size(min = 3, max = 54)
-    private String firstname;
-    private String lastname;
-    private String address;
+    String firstname;
+    String lastname;
+    String address;
 
     @NotNull
-    private String mobileNumber;
+    String mobileNumber;
 
     @Email
     @NotNull
-    private String email;
+    String email;
 
     @Size(min = 8, max = 60)
     @NotNull
-    private String password;
+    String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    Role role;
 }

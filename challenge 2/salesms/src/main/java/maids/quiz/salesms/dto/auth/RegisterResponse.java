@@ -12,7 +12,7 @@ import maids.quiz.salesms.model.Client;
 @NoArgsConstructor
 public class RegisterResponse {
 
-    private String accessToken;
-    private String refreshToken;
-    private Client client;
+    String accessToken;
+    String refreshToken;
+    Client client;
 }

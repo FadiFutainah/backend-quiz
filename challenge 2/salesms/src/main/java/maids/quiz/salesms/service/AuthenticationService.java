@@ -29,16 +29,16 @@ import java.io.IOException;
 @Service
 public class AuthenticationService {
     @Autowired
-    private ClientRepository repository;
+    ClientRepository repository;
     @Autowired
-    private TokenRepository tokenRepository;
+    TokenRepository tokenRepository;
     @Autowired
-    private JwtService jwtService;
+    JwtService jwtService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
-    private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
+    final ModelMapper modelMapper;
+    final PasswordEncoder passwordEncoder;
 
     public AuthenticationService() {
         this.passwordEncoder = new BCryptPasswordEncoder();
@@ -47,7 +47,7 @@ public class AuthenticationService {
     }
 
     //    TODO: fix
-    private void addPasswordEncodingMapping() {
+    void addPasswordEncodingMapping() {
         modelMapper.addMappings(new PropertyMap<RegisterRequest, Client>() {
             @Override
             protected void configure() {
@@ -91,7 +91,7 @@ public class AuthenticationService {
         return ResponseDto.response(data);
     }
 
-    private void saveClientToken(Client client, String jwtToken) {
+    void saveClientToken(Client client, String jwtToken) {
         var token = Token.builder()
                 .client(client)
                 .token(jwtToken)
@@ -102,7 +102,7 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllClientTokens(Client client) {
+    void revokeAllClientTokens(Client client) {
         var validClientTokens = tokenRepository.findAllValidTokenByClient(client.getId());
         if (validClientTokens.isEmpty())
             return;
