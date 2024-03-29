@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.SaleDto;
+import maids.quiz.salesms.dto.SaleTransactionDto;
+import maids.quiz.salesms.dto.UpdateSaleDto;
 import maids.quiz.salesms.model.Sale;
 import maids.quiz.salesms.service.SaleService;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,9 @@ public class SaleController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<Sale>> update(
             @PathVariable Integer id,
-            @Valid @RequestBody Sale sale
+            @Valid @RequestBody UpdateSaleDto updateSaleDto
     ) {
-        return saleService.update(id, sale);
+        return saleService.update(id, updateSaleDto);
     }
 
     @DeleteMapping("/{id}")

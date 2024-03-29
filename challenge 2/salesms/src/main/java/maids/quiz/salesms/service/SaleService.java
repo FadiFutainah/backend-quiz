@@ -3,6 +3,7 @@ package maids.quiz.salesms.service;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.SaleDto;
 import maids.quiz.salesms.dto.SaleTransactionDto;
+import maids.quiz.salesms.dto.UpdateSaleDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.model.Product;
@@ -15,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -63,6 +66,56 @@ public class SaleService extends CrudService<Sale, Integer> {
                 .total(total)
                 .transactions(saleTransactions)
                 .build();
+        return super.add(sale);
+    }
+
+    @Transactional
+    public ResponseEntity<ResponseDto<Sale>> update(
+            Integer id,
+            UpdateSaleDto updateSaleDto
+    ) {
+        Sale sale = lookupResource(id);
+        Map<Integer, Product> productHashMap = new HashMap<>();
+        Map<Integer, SaleTransaction> transictionHashMap = new HashMap<>();
+        for (SaleTransaction saleTransaction : sale.getTransactions()) {
+            productHashMap.put(saleTransaction.getProduct().getId(), saleTransaction.getProduct());
+            transictionHashMap.put(saleTransaction.getProduct().getId(), saleTransaction);
+        }
+        Double total = 0D;
+        for (SaleTransactionDto saleTransactionDto : updateSaleDto.getTransactions()) {
+            Product product = productService.lookupResource(saleTransactionDto.getProductId());
+
+            Product savedProduct = productHashMap.getOrDefault(product.getId(), null);
+            if (savedProduct == null) {
+                throw new CommonExceptions.BadRequestException(
+                        "the product " + product.getName() + " does not exist in this sale"
+                );
+            }
+            SaleTransaction savedSaleTransaction = transictionHashMap.get(product.getId());
+            product.setQuantity(product.getQuantity() + savedSaleTransaction.getQuantity());
+
+            if (saleTransactionDto.getQuantity() > product.getQuantity()) {
+                throw new CommonExceptions.BadRequestException(
+                        product.getQuantity() + " is the only available amount of " + product.getName()
+                                + " is not enough quantity for " + saleTransactionDto.getQuantity()
+                );
+            }
+
+            SaleTransaction saleTransaction = modelMapper.map(saleTransactionDto, SaleTransaction.class);
+
+
+            double totalPrice = saleTransactionDto.getPrice() * saleTransactionDto.getQuantity();
+            total += totalPrice;
+
+            savedSaleTransaction.setProduct(product);
+            savedSaleTransaction.setTotal(totalPrice);
+            savedSaleTransaction.setQuantity(saleTransaction.getQuantity());
+
+            product.setQuantity(product.getQuantity() - saleTransaction.getQuantity());
+//            TODO: implement bulk update to improve performance
+            productService.add(product);
+        }
+        sale.setTotal(total);
         return super.add(sale);
     }
 }
