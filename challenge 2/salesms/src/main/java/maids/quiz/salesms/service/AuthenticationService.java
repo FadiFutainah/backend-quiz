@@ -12,6 +12,8 @@ import maids.quiz.salesms.model.Token;
 import maids.quiz.salesms.repository.ClientRepository;
 import maids.quiz.salesms.repository.TokenRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +36,8 @@ public class AuthenticationService {
     final AuthenticationManager authenticationManager;
     final EmailService emailService;
 
+    private final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
+
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     ModelMapper modelMapper = new ModelMapper();
 
@@ -55,6 +59,8 @@ public class AuthenticationService {
         String refreshToken = getRefreshTokenFromAuthHeader(request);
         Client client = getClientFromRefreshToken(refreshToken);
         if (!Objects.equals(requestBody.getCode(), client.getActivationKey())) {
+            log.info("invalid activation code attempt: session-" + request.getSession()
+                    + ", email-" + client.getEmail());
             throw new CommonExceptions.UnauthorizedException("Invalid activation code");
         }
         client.setActivated(true);
@@ -107,6 +113,7 @@ public class AuthenticationService {
     }
 
     void revokeAllClientTokens(Client client) {
+        log.info("revoked all tokens for client " + client.getEmail());
         var validClientTokens = tokenRepository.findAllValidTokenByClient(client.getId());
         if (validClientTokens.isEmpty())
             return;

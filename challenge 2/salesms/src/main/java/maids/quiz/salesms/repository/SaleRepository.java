@@ -1,9 +1,23 @@
 package maids.quiz.salesms.repository;
 
 import maids.quiz.salesms.model.Sale;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.Instant;
 
 @Repository
 public interface SaleRepository extends JpaRepository<Sale, Integer> {
+    @Query("SELECT e FROM Sale e WHERE e.createdAt BETWEEN :fromDate AND :toDate")
+    Page<Sale> findByCreatedAtBetween(
+            @Param("fromDate") Instant fromDate,
+            @Param("toDate") Instant toDate,
+            Pageable pageable
+    );
+
+    long countByCreatedAtBetween(Instant fromDate, Instant toDate, Pageable pageable);
 }

@@ -2,6 +2,8 @@ package maids.quiz.salesms.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender javaMailSender;
+    private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
     public void sendVerificationEmail(String to, String verificationCode) {
         String subject = "Backend Quiz Verification Email";
@@ -20,6 +23,7 @@ public class EmailService {
 
     @Async
     public void sendEmail(String to, String subject, String body) {
+        log.info("sending email " + to);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);

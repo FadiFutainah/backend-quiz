@@ -12,10 +12,13 @@ import maids.quiz.salesms.model.SaleTransaction;
 import maids.quiz.salesms.repository.SaleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,6 +30,8 @@ public class SaleService extends CrudService<Sale, Integer> {
     ClientService clientService;
     @Autowired
     ProductService productService;
+    @Autowired
+    SaleRepository saleRepository;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -117,5 +122,10 @@ public class SaleService extends CrudService<Sale, Integer> {
         }
         sale.setTotal(total);
         return super.add(sale);
+    }
+
+    public ResponseEntity<ResponseDto<Page<Sale>>> report(Instant from, Instant to, Pageable pageable) {
+        var data = saleRepository.findByCreatedAtBetween(from, to, pageable);
+        return ResponseDto.response(data);
     }
 }

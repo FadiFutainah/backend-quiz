@@ -9,8 +9,12 @@ import maids.quiz.salesms.model.Sale;
 import maids.quiz.salesms.service.SaleService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/sale")
@@ -46,4 +50,13 @@ public class SaleController {
         return saleService.delete(id);
     }
 
+
+    @GetMapping("/report")
+    public ResponseEntity<ResponseDto<Page<Sale>>> report(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant to,
+            Pageable pageable
+    ) {
+        return saleService.report(from, to, pageable);
+    }
 }
