@@ -1,5 +1,6 @@
 package maids.quiz.salesms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,13 @@ public class Client extends BaseEntity<Integer> implements UserDetails {
 
     @Column(nullable = false, unique = true)
     String mobileNumber;
+
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @JsonIgnore
+    @Column(length = 20)
+    private String activationKey;
 
     @Column(unique = true)
     String email;
@@ -73,6 +81,6 @@ public class Client extends BaseEntity<Integer> implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return activated;
     }
 }

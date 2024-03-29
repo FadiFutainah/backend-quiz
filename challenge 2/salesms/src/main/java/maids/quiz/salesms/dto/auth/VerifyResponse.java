@@ -10,7 +10,7 @@ import maids.quiz.salesms.model.Client;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterResponse {
+public class VerifyResponse {
 
     String accessToken;
     String refreshToken;

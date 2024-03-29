@@ -22,10 +22,19 @@ public class AuthenticationController {
     final ClientService clientService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto<RegisterResponse>> register(
+    public ResponseEntity<ResponseDto<String>> register(
             @Valid @RequestBody RegisterRequest request
     ) {
         return service.register(request);
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<ResponseDto<VerifyResponse>> verify(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @Valid @RequestBody VerifyRequest requestBody
+    ) {
+        return service.verify(requestBody, request, response);
     }
 
     @PostMapping("/login")
@@ -35,13 +44,12 @@ public class AuthenticationController {
         return service.login(request);
     }
 
-//    TODO: fix
     @PostMapping("/refresh-token")
-    public void refreshToken(
+    public ResponseEntity<ResponseDto<LoginResponse>> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        service.refreshToken(request, response);
+        return service.refreshToken(request, response);
     }
 
     @PatchMapping()

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,8 +47,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseDto.exceptionResponse(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
     }
 
-    private String filterMessage(String message){
-        if(message.contains("Duplicate entry")){
+    private String filterMessage(String message) {
+        if (message.contains("Duplicate entry")) {
             return "this entity already exists";
         }
         return message;
@@ -74,7 +75,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Object> handleBadCredentials(AuthenticationException ex) {
+    public ResponseEntity<Object> handleAuthentication(AuthenticationException ex) {
+        return ResponseDto.exceptionResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
     }
 
@@ -87,10 +93,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CommonExceptions.ResourceAlreadyExistException.class)
     public ResponseEntity<Object> handleResourceAlreadyExist(CommonExceptions.ResourceAlreadyExistException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
-    }
-
-    @ExceptionHandler(CommonExceptions.BadCredentialsException.class)
-    public ResponseEntity<Object> handleBadCredentials(CommonExceptions.BadCredentialsException ex) {
-        return ResponseDto.exceptionResponse(HttpStatus.FORBIDDEN, ex.getLocalizedMessage());
     }
 }
