@@ -31,9 +31,12 @@ public class CategoryController {
         return categoryService.add(category);
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseDto<Category>> update(@Valid @RequestBody Category category) {
-        return categoryService.update(category);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<Category>> update(
+            @PathVariable Integer id,
+            @Valid @RequestBody Category category
+    ) {
+        return categoryService.update(id, category);
     }
 
     @DeleteMapping("/{id}")

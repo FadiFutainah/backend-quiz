@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.UpdateProductDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,12 @@ public class ProductController {
         return productService.add(product);
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseDto<Product>> update(@Valid @RequestBody ProductDto product) {
-        return productService.update(product);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<Product>> update(
+            @PathVariable Integer id,
+            @Valid @RequestBody UpdateProductDto product
+    ) {
+        return productService.update(id, product);
     }
 
     @DeleteMapping("/{id}")

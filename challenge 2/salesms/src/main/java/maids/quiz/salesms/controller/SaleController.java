@@ -31,9 +31,12 @@ public class SaleController {
         return saleService.add(sale);
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseDto<Sale>> update(@Valid @RequestBody Sale sale) {
-        return saleService.update(sale);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<Sale>> update(
+            @PathVariable Integer id,
+            @Valid @RequestBody Sale sale
+    ) {
+        return saleService.update(id, sale);
     }
 
     @DeleteMapping("/{id}")

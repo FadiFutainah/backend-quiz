@@ -36,9 +36,12 @@ public class ClientController {
         return clientService.add(client);
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseDto<Client>> update(@Valid @RequestBody Client client) {
-        return clientService.update(client);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<Client>> update(
+            @PathVariable Integer id,
+            @Valid @RequestBody Client client
+    ) {
+        return clientService.update(id, client);
     }
 
     @DeleteMapping("/{id}")

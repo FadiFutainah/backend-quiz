@@ -2,6 +2,7 @@ package maids.quiz.salesms.service;
 
 import maids.quiz.salesms.dto.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.UpdateProductDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.Category;
 import maids.quiz.salesms.model.Product;
@@ -28,10 +29,12 @@ public class ProductService extends CrudService<Product, Integer> {
     private Set<Category> getCategoriesFromIds(Set<Integer> categoryIds) {
         Set<Category> categories = new HashSet<>();
         String message = "Category not found with id: ";
-        for (Integer categoryId : categoryIds) {
-            Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException(message + categoryId));
-            categories.add(category);
+        if (categoryIds != null) {
+            for (Integer categoryId : categoryIds) {
+                Category category = categoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException(message + categoryId));
+                categories.add(category);
+            }
         }
         return categories;
     }
@@ -42,9 +45,17 @@ public class ProductService extends CrudService<Product, Integer> {
         return super.add(product);
     }
 
-    public ResponseEntity<ResponseDto<Product>> update(ProductDto resource) {
+    public ResponseEntity<ResponseDto<Product>> update(Integer id, UpdateProductDto resource) {
         Product product = modelMapper.map(resource, Product.class);
         product.setCategories(getCategoriesFromIds(resource.getCategories()));
-        return super.update(product);
+        Product savedProduct = lookupResource(id);
+//        TODO: improve on
+        if(product.getCategories() != null) savedProduct.setCategories(product.getCategories());
+        if(product.getName() != null) savedProduct.setName(product.getName());
+        if(product.getDescription() != null) savedProduct.setDescription(product.getDescription());
+        if(product.getPrice() != null) savedProduct.setPrice(product.getPrice());
+        if(product.getQuantity() != null) savedProduct.setQuantity(product.getQuantity());
+
+        return super.add(savedProduct);
     }
 }

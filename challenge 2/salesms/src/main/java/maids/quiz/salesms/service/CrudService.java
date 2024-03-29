@@ -4,6 +4,7 @@ package maids.quiz.salesms.service;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.BaseEntity;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +41,8 @@ public class CrudService<Entity extends BaseEntity<Id>, Id> {
         return ResponseDto.response("", HttpStatus.OK, "resource deleted successfully");
     }
 
-    public ResponseEntity<ResponseDto<Entity>> update(Entity resource) {
-        lookupResource(resource.getId());
+    public ResponseEntity<ResponseDto<Entity>> update(Id id, Entity resource) {
+        lookupResource(id);
         return ResponseDto.response(jpaRepository.save(resource));
     }
 }

@@ -51,13 +51,4 @@ public class AuthenticationController {
     ) throws IOException {
         return service.refreshToken(request, response);
     }
-
-    @PatchMapping()
-    public ResponseEntity<?> changePassword(
-            @RequestBody ChangePasswordRequest request,
-            Principal connectedUser
-    ) {
-        clientService.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
-    }
 }

@@ -1,39 +1,32 @@
 package maids.quiz.salesms.service;
 
-import maids.quiz.salesms.dto.auth.ChangePasswordRequest;
+import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.UpdateClientDto;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 
 @Service
 public class ClientService extends CrudService<Client, Integer> {
-    @Autowired
-    PasswordEncoder passwordEncoder;
     ClientRepository repository;
-
+    ModelMapper modelMapper = new ModelMapper();
 
     public ClientService(ClientRepository clientRepository) {
         super(clientRepository);
     }
 
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+    public ResponseEntity<ResponseDto<Client>> update(Integer id, UpdateClientDto resource) {
+        Client client = modelMapper.map(resource, Client.class);
+        Client savedClient = lookupResource(id);
+//        TODO: improve on
+        if (client.getAddress() != null) savedClient.setAddress(client.getAddress());
+        if (client.getMobileNumber() != null) savedClient.setMobileNumber(client.getMobileNumber());
+        if (client.getFirstname() != null) savedClient.setFirstname(client.getFirstname());
+        if (client.getLastname() != null) savedClient.setLastname(client.getLastname());
+        if (client.getEmail() != null) savedClient.setEmail(client.getEmail());
 
-        var client = (Client) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-
-        if (!passwordEncoder.matches(request.getCurrentPassword(), client.getPassword())) {
-            throw new IllegalStateException("Wrong password");
-        }
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-            throw new IllegalStateException("Password are not the same");
-        }
-
-        client.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-        repository.save(client);
+        return super.add(savedClient);
     }
 }
