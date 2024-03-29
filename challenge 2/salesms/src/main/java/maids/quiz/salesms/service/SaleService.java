@@ -132,6 +132,14 @@ public class SaleService extends CrudService<Sale, Integer> {
                 .collect(Collectors.toList());
     }
 
+    public List<Client> getClientsOrderByTotalSum() {
+        List<Object[]> results = saleRepository.findClientsOrderByTotalSum();
+
+        return results.stream()
+                .map(result -> (Client) result[0])
+                .collect(Collectors.toList());
+    }
+
     public ResponseEntity<ResponseDto<SalesReportDto>> report(Instant from, Instant to) {
         Long totalCount = saleRepository.countByCreatedAtBetween(from, to);
         Long totalRevenue = saleRepository.sumTotalByCreatedAtBetween(from, to);

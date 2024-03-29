@@ -30,4 +30,10 @@ public interface SaleRepository extends JpaRepository<Sale, Integer> {
             "GROUP BY s.seller " +
             "ORDER BY totalSum DESC")
     List<Object[]> findSellersOrderByTotalSum();
+
+    @Query("SELECT s.client, SUM(s.total) AS totalSum " +
+            "FROM Sale s " +
+            "GROUP BY s.client " +
+            "ORDER BY totalSum DESC")
+    List<Object[]> findClientsOrderByTotalSum();
 }
