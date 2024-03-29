@@ -9,6 +9,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,7 @@ public class Product extends BaseEntity<Integer> {
 
     @ManyToMany
     @JsonIgnoreProperties(allowSetters = true)
-    Set<Category> categories;
+    Set<Category> categories= new HashSet<>();;
 
     @NotNull
     @PositiveOrZero

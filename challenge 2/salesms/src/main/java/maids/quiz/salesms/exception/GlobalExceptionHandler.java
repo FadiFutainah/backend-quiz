@@ -46,6 +46,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseDto.exceptionResponse(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
     }
 
+    private String filterMessage(String message){
+        if(message.contains("Duplicate entry")){
+            return "this entity already exists";
+        }
+        return message;
+    }
+
     @ExceptionHandler(CommonExceptions.ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFound(CommonExceptions.ResourceNotFoundException ex) {
         return ResponseDto.exceptionResponse(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
@@ -73,7 +80,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAll(Exception ex) {
-        return ResponseDto.exceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
+        String message = filterMessage(ex.getLocalizedMessage());
+        return ResponseDto.exceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, message);
     }
 
     @ExceptionHandler(CommonExceptions.ResourceAlreadyExistException.class)

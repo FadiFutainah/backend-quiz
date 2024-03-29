@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,8 @@ public class Sale extends BaseEntity<Integer> {
 
     @ManyToMany
     @JsonIgnoreProperties(allowSetters = true)
-    Set<Product> products;
+    Set<Product> products = new HashSet<>();
+    ;
 
     @Column(nullable = false)
     Double total;

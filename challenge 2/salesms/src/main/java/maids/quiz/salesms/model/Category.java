@@ -2,10 +2,13 @@ package maids.quiz.salesms.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -16,9 +19,10 @@ import java.util.Set;
 @Entity
 @Accessors(chain = true)
 public class Category extends BaseEntity<Integer> {
-    @Column(nullable = false)
+    @Size(min = 2)
+    @Column(nullable = false, unique = true)
     String name;
 
-    @ManyToMany(mappedBy = "categories")
-    Set<Product> products;
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
+    Set<Product> products = new HashSet<>();
 }
