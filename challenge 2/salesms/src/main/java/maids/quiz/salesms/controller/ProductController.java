@@ -2,11 +2,10 @@ package maids.quiz.salesms.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import maids.quiz.salesms.dto.product.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.product.ProductDto;
 import maids.quiz.salesms.dto.product.ProductReportDto;
 import maids.quiz.salesms.dto.product.UpdateProductDto;
-import maids.quiz.salesms.dto.sale.SalesReportDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
 import org.springframework.data.domain.Page;
