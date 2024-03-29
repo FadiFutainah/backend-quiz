@@ -7,6 +7,8 @@ import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.UpdateProductDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,8 @@ public class ProductController {
     final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<Product>>> fetch() {
-        return productService.fetch();
+    public ResponseEntity<ResponseDto<Page<Product>>> fetch(Pageable pageable) {
+        return productService.fetch(pageable);
     }
 
     @GetMapping("/{id}")

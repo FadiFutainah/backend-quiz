@@ -4,8 +4,10 @@ package maids.quiz.salesms.service;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.BaseEntity;
-import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -19,13 +21,18 @@ public class CrudService<Entity extends BaseEntity<Id>, Id> {
     }
 
     public Entity lookupResource(Id id) {
-        String message =  "Resource with id " + id + " does not exist";
+        String message = "Resource with id " + id + " does not exist";
         return jpaRepository.findById(id)
                 .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException(message));
     }
 
     public ResponseEntity<ResponseDto<List<Entity>>> fetch() {
         return ResponseDto.response(jpaRepository.findAll());
+    }
+
+    public ResponseEntity<ResponseDto<Page<Entity>>> fetch(Pageable pageable) {
+        Page<Entity> page = jpaRepository.findAll(pageable);
+        return ResponseDto.response(page);
     }
 
     public ResponseEntity<ResponseDto<Entity>> fetch(Id id) {

@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.model.Category;
 import maids.quiz.salesms.service.CategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,8 @@ public class CategoryController {
     final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<Category>>> fetch() {
-        return categoryService.fetch();
+    public ResponseEntity<ResponseDto<Page<Category>>> fetch(Pageable pageable) {
+        return categoryService.fetch(pageable);
     }
 
     @GetMapping("/{id}")

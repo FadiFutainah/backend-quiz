@@ -8,6 +8,8 @@ import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ClientService;
 import maids.quiz.salesms.dto.auth.ChangePasswordRequest;
 import maids.quiz.salesms.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +24,8 @@ public class ClientController {
     final ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<Client>>> fetch() {
-        return clientService.fetch();
+    public ResponseEntity<ResponseDto<Page<Client>>> fetch(Pageable pageable) {
+        return clientService.fetch(pageable);
     }
 
     @GetMapping("/{id}")

@@ -4,14 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.SaleDto;
-import maids.quiz.salesms.dto.SaleTransactionDto;
 import maids.quiz.salesms.dto.UpdateSaleDto;
 import maids.quiz.salesms.model.Sale;
 import maids.quiz.salesms.service.SaleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/sale")
@@ -20,8 +19,8 @@ public class SaleController {
     final SaleService saleService;
 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<Sale>>> fetch() {
-        return saleService.fetch();
+    public ResponseEntity<ResponseDto<Page<Sale>>> fetch(Pageable pageable) {
+        return saleService.fetch(pageable);
     }
 
     @GetMapping("/{id}")
