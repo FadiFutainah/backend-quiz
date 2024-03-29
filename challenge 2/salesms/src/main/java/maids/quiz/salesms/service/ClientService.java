@@ -1,7 +1,7 @@
 package maids.quiz.salesms.service;
 
 import maids.quiz.salesms.dto.ResponseDto;
-import maids.quiz.salesms.dto.UpdateClientDto;
+import maids.quiz.salesms.dto.client.UpdateClientDto;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.repository.ClientRepository;
 import org.modelmapper.ModelMapper;

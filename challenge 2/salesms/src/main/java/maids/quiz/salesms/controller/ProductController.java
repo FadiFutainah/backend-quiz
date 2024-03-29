@@ -2,17 +2,15 @@ package maids.quiz.salesms.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import maids.quiz.salesms.dto.ProductDto;
+import maids.quiz.salesms.dto.product.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
-import maids.quiz.salesms.dto.UpdateProductDto;
+import maids.quiz.salesms.dto.product.UpdateProductDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")

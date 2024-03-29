@@ -1,6 +1,10 @@
 package maids.quiz.salesms.service;
 
 import maids.quiz.salesms.dto.*;
+import maids.quiz.salesms.dto.sale.SaleDto;
+import maids.quiz.salesms.dto.sale.SaleTransactionDto;
+import maids.quiz.salesms.dto.sale.SalesReportDto;
+import maids.quiz.salesms.dto.sale.UpdateSaleDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.model.Product;

@@ -1,4 +1,4 @@
-package maids.quiz.salesms.dto;
+package maids.quiz.salesms.dto.sale;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

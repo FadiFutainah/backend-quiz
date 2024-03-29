@@ -1,4 +1,4 @@
-package maids.quiz.salesms.dto;
+package maids.quiz.salesms.dto.sale;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

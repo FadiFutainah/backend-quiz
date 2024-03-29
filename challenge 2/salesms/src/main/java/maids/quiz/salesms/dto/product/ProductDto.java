@@ -1,4 +1,4 @@
-package maids.quiz.salesms.dto;
+package maids.quiz.salesms.dto.product;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -14,16 +14,19 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateProductDto {
+public class ProductDto {
+    @NotNull
     String name;
 
     String description;
 
+    @NotNull
     @PositiveOrZero
     Integer quantity;
 
+    @NotNull
     @PositiveOrZero
     Double price;
 
-    Set<Integer> categories;
+    Set<Integer> categories = new HashSet<>();
 }
