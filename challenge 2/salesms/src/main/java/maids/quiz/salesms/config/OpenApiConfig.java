@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
-// TODO: edit
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
@@ -23,13 +22,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        description = "Local",
+                        description = "Local - dev profile",
                         url = "http://localhost:8080"
                 ),
-//                @Server(
-//                        description = "Live",
-//                        url = "154.62.109.112"
-//                )
         },
         security = {
                 @SecurityRequirement(
