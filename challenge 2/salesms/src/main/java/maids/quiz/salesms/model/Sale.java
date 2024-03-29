@@ -29,7 +29,6 @@ public class Sale extends BaseEntity<Integer> {
     @ManyToMany
     @JsonIgnoreProperties(allowSetters = true)
     Set<Product> products = new HashSet<>();
-    ;
 
     @Column(nullable = false)
     Double total;

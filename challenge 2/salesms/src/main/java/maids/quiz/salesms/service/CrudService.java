@@ -18,11 +18,9 @@ public class CrudService<Entity extends BaseEntity<Id>, Id> {
     }
 
     public Entity lookupResource(Id id) {
-        Entity resource = jpaRepository.findById(id).orElse(null);
-        if (resource == null) {
-            throw new CommonExceptions.ResourceNotFoundException("Resource with id " + id + " does not exist");
-        }
-        return resource;
+        String message = "Resource with id " + id + " does not exist";
+        return jpaRepository.findById(id)
+                .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException(message));
     }
 
     public ResponseEntity<ResponseDto<List<Entity>>> fetch() {
@@ -43,6 +41,7 @@ public class CrudService<Entity extends BaseEntity<Id>, Id> {
     }
 
     public ResponseEntity<ResponseDto<Entity>> update(Entity resource) {
-        return ResponseDto.response(jpaRepository.save(lookupResource(resource.getId())));
+        lookupResource(resource.getId());
+        return ResponseDto.response(jpaRepository.save(resource));
     }
 }

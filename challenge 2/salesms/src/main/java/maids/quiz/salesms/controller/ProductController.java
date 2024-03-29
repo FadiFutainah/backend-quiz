@@ -2,6 +2,7 @@ package maids.quiz.salesms.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import maids.quiz.salesms.dto.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
@@ -27,12 +28,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto<Product>> add(@Valid @RequestBody Product product) {
+    public ResponseEntity<ResponseDto<Product>> add(@Valid @RequestBody ProductDto product) {
         return productService.add(product);
     }
 
     @PutMapping
-    public ResponseEntity<ResponseDto<Product>> update(@Valid @RequestBody Product product) {
+    public ResponseEntity<ResponseDto<Product>> update(@Valid @RequestBody ProductDto product) {
         return productService.update(product);
     }
 
