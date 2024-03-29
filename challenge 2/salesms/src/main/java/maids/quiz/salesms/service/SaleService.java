@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,23 +24,26 @@ public class SaleService extends CrudService<Sale, Integer> {
     ClientService clientService;
     @Autowired
     ProductService productService;
+
     ModelMapper modelMapper = new ModelMapper();
 
     public SaleService(SaleRepository saleRepository) {
         super(saleRepository);
     }
 
+    @Transactional
     public ResponseEntity<ResponseDto<Sale>> createNewSale(SaleDto saleDto) {
         double total = 0;
         Client client = clientService.lookupResource(saleDto.getClientId());
         Client seller = clientService.lookupResource(saleDto.getSellerId());
         Set<SaleTransaction> saleTransactions = new HashSet<>();
+
         for (SaleTransactionDto saleTransactionDto : saleDto.getTransactions()) {
             Product product = productService.lookupResource(saleTransactionDto.getProductId());
             if (saleTransactionDto.getQuantity() > product.getQuantity()) {
                 throw new CommonExceptions.BadRequestException(
-                        product.getQuantity() + " of " + product.getName() + " is not enough quantity for "
-                                + saleTransactionDto.getQuantity()
+                        product.getQuantity() + " is the only available amount of " + product.getName()
+                                + " is not enough quantity for " + saleTransactionDto.getQuantity()
                 );
             }
             SaleTransaction saleTransaction = modelMapper.map(saleTransactionDto, SaleTransaction.class);
@@ -48,6 +52,10 @@ public class SaleService extends CrudService<Sale, Integer> {
             total += totalPrice;
             saleTransaction.setTotal(totalPrice);
             saleTransactions.add(saleTransaction);
+
+            product.setQuantity(product.getQuantity() - saleTransaction.getQuantity());
+//            TODO: implement bulk update to improve performance
+            productService.add(product);
         }
         Sale sale = Sale.builder()
                 .client(client)
@@ -55,6 +63,6 @@ public class SaleService extends CrudService<Sale, Integer> {
                 .total(total)
                 .transactions(saleTransactions)
                 .build();
-        return ResponseDto.response(sale);
+        return super.add(sale);
     }
 }

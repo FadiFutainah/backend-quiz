@@ -19,7 +19,7 @@ public class CrudService<Entity extends BaseEntity<Id>, Id> {
     }
 
     public Entity lookupResource(Id id) {
-        String message = "Resource with id " + id + " does not exist";
+        String message =  "Resource with id " + id + " does not exist";
         return jpaRepository.findById(id)
                 .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException(message));
     }

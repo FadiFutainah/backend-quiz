@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -45,6 +46,7 @@ public class AuthenticationService {
         return ResponseDto.response("Verification code sent successfully");
     }
 
+    @Transactional
     public ResponseEntity<ResponseDto<VerifyResponse>> verify(
             VerifyRequest requestBody,
             HttpServletRequest request,
@@ -68,6 +70,7 @@ public class AuthenticationService {
         return ResponseDto.response(data);
     }
 
+    @Transactional
     public ResponseEntity<ResponseDto<LoginResponse>> login(LoginRequest request) {
         var client = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new CommonExceptions.ResourceNotFoundException("email does not exist"));

@@ -26,7 +26,7 @@ public class Sale extends BaseEntity<Integer> {
     @JsonIgnoreProperties(allowSetters = true)
     Client seller;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties(allowSetters = true)
     Set<SaleTransaction> transactions = new HashSet<>();
 
