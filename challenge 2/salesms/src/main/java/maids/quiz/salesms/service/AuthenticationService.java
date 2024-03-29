@@ -3,6 +3,7 @@ package maids.quiz.salesms.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.auth.LoginRequest;
 import maids.quiz.salesms.dto.auth.LoginResponse;
@@ -14,45 +15,25 @@ import maids.quiz.salesms.model.Token;
 import maids.quiz.salesms.repository.ClientRepository;
 import maids.quiz.salesms.repository.TokenRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
-    @Autowired
-    ClientRepository repository;
-    @Autowired
-    TokenRepository tokenRepository;
-    @Autowired
-    JwtService jwtService;
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    ModelMapper modelMapper;
-
-    public AuthenticationService() {
-        this.modelMapper = new ModelMapper();
-//        addPasswordEncodingMapping();
-    }
-
-    //    TODO: fix
-    void addPasswordEncodingMapping() {
-        modelMapper.addMappings(new PropertyMap<RegisterRequest, Client>() {
-            @Override
-            protected void configure() {
-                map().setPassword(passwordEncoder.encode(source.getPassword()));
-            }
-        });
-    }
+    final ClientRepository repository;
+    final TokenRepository tokenRepository;
+    final JwtService jwtService;
+    final AuthenticationManager authenticationManager;
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    ModelMapper modelMapper = new ModelMapper();
 
     public ResponseEntity<ResponseDto<RegisterResponse>> register(RegisterRequest request) {
         request.setPassword(passwordEncoder.encode(request.getPassword()));

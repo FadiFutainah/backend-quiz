@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleTransaction {
+public class SaleTransaction extends BaseEntity<Integer> {
     @ManyToOne
     @JoinColumn(name = "sale_id")
     @JsonIgnoreProperties(allowSetters = true)

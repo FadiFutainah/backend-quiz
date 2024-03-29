@@ -2,6 +2,9 @@ package maids.quiz.salesms;
 
 import maids.quiz.salesms.service.AuthenticationService;
 import maids.quiz.salesms.dto.auth.RegisterRequest;
+import maids.quiz.salesms.service.SaleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

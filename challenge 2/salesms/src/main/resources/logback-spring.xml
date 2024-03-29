@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="myLogFileLocation" value="logs/trace.log"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_CLIENT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/client.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <totalSizeCap>2MB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_PRODUCT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/product.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/product.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <totalSizeCap>2MB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_SALES" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/sales.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/sales.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <totalSizeCap>2MB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_AUTH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/auth.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/auth.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <totalSizeCap>2MB</totalSizeCap>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <logger name="org.project.demo.service.ClientService" level="TRACE">
+        <appender-ref ref="FILE_CLIENT"/>
+    </logger>
+    <logger name="org.project.demo.service.ProductService" level="TRACE">
+        <appender-ref ref="FILE_PRODUCT"/>
+    </logger>
+    <logger name="org.project.demo.service.SaleOperationService" level="TRACE">
+        <appender-ref ref="FILE_SALES"/>
+    </logger>
+    <logger name="org.project.demo.service.AuthService" level="TRACE">
+        <appender-ref ref="FILE_AUTH"/>
+    </logger>
+</configuration>
