@@ -24,8 +24,6 @@ public class Main {
      * x y z
      * where: x + y + z = s
      * - - - -
-     * solution explanation:
-     * TODO: explain the solution
      * time complexity: O(n^2)
      * space complexity: O(1)
      **/
@@ -64,9 +62,7 @@ public class Main {
                 else j++;
             }
         }
-        if(numberOfTriplets == 0){
-            System.out.println("No triplet where found");
-        }
+        System.out.println(numberOfTriplets + " triplets were found");
     }
 
     public static void main(String[] args) {
