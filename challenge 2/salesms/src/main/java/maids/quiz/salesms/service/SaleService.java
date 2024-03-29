@@ -1,9 +1,6 @@
 package maids.quiz.salesms.service;
 
-import maids.quiz.salesms.dto.ResponseDto;
-import maids.quiz.salesms.dto.SaleDto;
-import maids.quiz.salesms.dto.SaleTransactionDto;
-import maids.quiz.salesms.dto.UpdateSaleDto;
+import maids.quiz.salesms.dto.*;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.model.Product;
@@ -12,8 +9,6 @@ import maids.quiz.salesms.model.SaleTransaction;
 import maids.quiz.salesms.repository.SaleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +27,8 @@ public class SaleService extends CrudService<Sale, Integer> {
     ProductService productService;
     @Autowired
     SaleRepository saleRepository;
+    @Autowired
+    SaleTransactionService saleTransactionService;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -124,8 +121,16 @@ public class SaleService extends CrudService<Sale, Integer> {
         return super.add(sale);
     }
 
-    public ResponseEntity<ResponseDto<Page<Sale>>> report(Instant from, Instant to, Pageable pageable) {
-        var data = saleRepository.findByCreatedAtBetween(from, to, pageable);
-        return ResponseDto.response(data);
+    public ResponseEntity<ResponseDto<SalesReportDto>> report(Instant from, Instant to) {
+        Long totalCount = saleRepository.countByCreatedAtBetween(from, to);
+        Long totalRevenue = saleRepository.sumTotalByCreatedAtBetween(from, to);
+        Map<Long, Long> mostSellingProducts = saleTransactionService.getTopTenMostRepeatedProducts(10);
+
+        SalesReportDto salesResponseDto = SalesReportDto.builder()
+                .totalNumber(totalCount)
+                .totalRevenue(totalRevenue)
+                .build();
+
+        return ResponseDto.response(salesResponseDto);
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import static maids.quiz.salesms.enums.Permission.*;
 import static maids.quiz.salesms.enums.Role.ADMIN;
+import static maids.quiz.salesms.enums.Role.CLIENT;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -26,18 +27,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
 //    TODO: fix configuration
     private static final String[] WHITE_LIST_URL = {
-            "**",
-            "/api/v1/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
+            "**", // for testing purposes
+            "/api/auth/**",
+            "/api-docs/**",
             "/swagger-resources",
             "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
             "/swagger-ui/**",
-            "/webjars/**",
-            "/swagger-ui.html"};
+            "/swagger-ui.html"
+    };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -51,11 +48,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name())
-                                .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name())
-                                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name())
-                                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name())
-                                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name())
+                                .requestMatchers("/api/client/**").hasAnyRole(ADMIN.name(), CLIENT.name())
+                                .requestMatchers("/api/category/**").hasAnyRole(ADMIN.name(), CLIENT.name())
+                                .requestMatchers("/api/product/**").hasAnyRole(ADMIN.name(), CLIENT.name())
+                                .requestMatchers("/api/sale/**").hasAnyRole(ADMIN.name(), CLIENT.name())
                                 .anyRequest()
                                 .authenticated()
                 )

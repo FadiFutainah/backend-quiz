@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.SaleDto;
+import maids.quiz.salesms.dto.SalesReportDto;
 import maids.quiz.salesms.dto.UpdateSaleDto;
 import maids.quiz.salesms.model.Sale;
 import maids.quiz.salesms.service.SaleService;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/api/sale")
@@ -52,11 +52,10 @@ public class SaleController {
 
 
     @GetMapping("/report")
-    public ResponseEntity<ResponseDto<Page<Sale>>> report(
+    public ResponseEntity<ResponseDto<SalesReportDto>> report(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant to,
-            Pageable pageable
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant to
     ) {
-        return saleService.report(from, to, pageable);
+        return saleService.report(from, to);
     }
 }

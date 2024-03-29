@@ -18,6 +18,8 @@ public interface SaleRepository extends JpaRepository<Sale, Integer> {
             @Param("toDate") Instant toDate,
             Pageable pageable
     );
+    Long countByCreatedAtBetween(Instant fromDate, Instant toDate);
 
-    long countByCreatedAtBetween(Instant fromDate, Instant toDate, Pageable pageable);
+    @Query(value = "SELECT SUM(total) FROM Sale WHERE createdAt BETWEEN :fromDate AND :toDate")
+    Long sumTotalByCreatedAtBetween(@Param("fromDate") Instant fromDate, @Param("toDate") Instant toDate);
 }

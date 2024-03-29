@@ -6,10 +6,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import maids.quiz.salesms.enums.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -82,5 +85,26 @@ public class Client extends BaseEntity<Integer> implements UserDetails {
     @Override
     public boolean isEnabled() {
         return activated;
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        audit("INSERT");
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        audit("UPDATE");
+    }
+
+    @PreRemove
+    public void onPreRemove() {
+        audit("DELETE");
+    }
+
+    private void audit(String operation) {
+        final Logger log = LoggerFactory.getLogger(Client.class);
+        log.info("performed " + operation + " on Client class - " + (new Date().getTime()));
+        log.info("email is " + email);
     }
 }

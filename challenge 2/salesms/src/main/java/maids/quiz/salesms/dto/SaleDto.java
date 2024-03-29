@@ -24,8 +24,4 @@ public class SaleDto {
     Integer sellerId;
 
     Set<SaleTransactionDto> transactions = new HashSet<>();
-
-    @NotNull
-    @PositiveOrZero
-    Double total;
 }
