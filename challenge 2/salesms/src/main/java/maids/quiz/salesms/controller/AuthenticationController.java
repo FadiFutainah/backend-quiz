@@ -18,8 +18,8 @@ import java.security.Principal;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationService service;
-    private final ClientService clientService;
+    final AuthenticationService service;
+    final ClientService clientService;
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDto<RegisterResponse>> register(

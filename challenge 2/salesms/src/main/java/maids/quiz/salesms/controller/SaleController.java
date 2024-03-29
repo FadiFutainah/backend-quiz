@@ -14,9 +14,7 @@ import java.util.List;
 @RequestMapping("/api/sale")
 @RequiredArgsConstructor
 public class SaleController {
-
-
-    private final SaleService saleService;
+    final SaleService saleService;
 
     @GetMapping
     public ResponseEntity<ResponseDto<List<Sale>>> fetch() {

@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientController {
 
-    private final ClientService clientService;
+    final ClientService clientService;
 
     @GetMapping
     public ResponseEntity<ResponseDto<List<Client>>> fetch() {
