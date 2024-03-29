@@ -1,6 +1,5 @@
 package maids.quiz.salesms.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,11 +29,8 @@ public class Product extends BaseEntity<Integer> {
     Set<Category> categories = new HashSet<>();
 
     @Column(nullable = false)
-    Integer quantity;
+    Long quantity;
 
     @Column(nullable = false)
     Double price;
-
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    Set<Sale> sales;
 }

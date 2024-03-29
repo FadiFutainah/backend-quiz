@@ -3,6 +3,7 @@ package maids.quiz.salesms.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.SaleDto;
 import maids.quiz.salesms.model.Sale;
 import maids.quiz.salesms.service.SaleService;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto<Sale>> add(@Valid @RequestBody Sale sale) {
-        return saleService.add(sale);
+    public ResponseEntity<ResponseDto<Sale>> add(@Valid @RequestBody SaleDto saleDto) {
+        return saleService.createNewSale(saleDto);
     }
 
     @PutMapping("/{id}")

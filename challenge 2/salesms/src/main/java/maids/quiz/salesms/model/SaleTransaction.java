@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 public class SaleTransaction extends BaseEntity<Integer> {
     @ManyToOne
     @JoinColumn(name = "sale_id")
-    @JsonIgnoreProperties(allowSetters = true)
+    @JsonIgnoreProperties
     Sale sale;
 
     @ManyToOne
@@ -27,4 +27,5 @@ public class SaleTransaction extends BaseEntity<Integer> {
 
     Double price;
     Long quantity;
+    Double total;
 }
