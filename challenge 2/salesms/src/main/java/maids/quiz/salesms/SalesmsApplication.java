@@ -14,10 +14,4 @@ public class SalesmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(SalesmsApplication.class, args);
     }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(AuthenticationService service) {
-        return args -> {
-        };
-    }
 }

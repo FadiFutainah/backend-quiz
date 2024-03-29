@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SaleTransactionRepository extends JpaRepository<SaleTransaction, Long> {
-
-    @Query("SELECT t.productId, COUNT(t.productId) FROM SaleTransaction t " +
-            "GROUP BY t.productId ORDER BY COUNT(t.productId) DESC")
+    @Query("SELECT st.product, COUNT(st.product) AS count " +
+            "FROM SaleTransaction st " +
+            "GROUP BY st.product " +
+            "ORDER BY count DESC")
     List<Object[]> findMostRepeatedProducts();
 }

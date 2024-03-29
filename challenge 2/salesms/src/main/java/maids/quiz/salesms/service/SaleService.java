@@ -1,6 +1,6 @@
 package maids.quiz.salesms.service;
 
-import maids.quiz.salesms.dto.*;
+import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.sale.SaleDto;
 import maids.quiz.salesms.dto.sale.SaleTransactionDto;
 import maids.quiz.salesms.dto.sale.SalesReportDto;
@@ -18,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleService extends CrudService<Sale, Integer> {
@@ -125,14 +123,26 @@ public class SaleService extends CrudService<Sale, Integer> {
         return super.add(sale);
     }
 
+
+    public List<Client> getSellersOrderByTotalSum() {
+        List<Object[]> results = saleRepository.findSellersOrderByTotalSum();
+
+        return results.stream()
+                .map(result -> (Client) result[0])
+                .collect(Collectors.toList());
+    }
+
     public ResponseEntity<ResponseDto<SalesReportDto>> report(Instant from, Instant to) {
         Long totalCount = saleRepository.countByCreatedAtBetween(from, to);
         Long totalRevenue = saleRepository.sumTotalByCreatedAtBetween(from, to);
-        Map<Long, Long> mostSellingProducts = saleTransactionService.getTopTenMostRepeatedProducts(10);
+        List<Product> topSellingProducts = saleTransactionService.getMostRepeatedProducts();
+        List<Client> topPerformingSellers = getSellersOrderByTotalSum();
 
         SalesReportDto salesResponseDto = SalesReportDto.builder()
                 .totalNumber(totalCount)
                 .totalRevenue(totalRevenue)
+                .topSellingProducts(topSellingProducts)
+                .topPerformingSellers(topPerformingSellers)
                 .build();
 
         return ResponseDto.response(salesResponseDto);
