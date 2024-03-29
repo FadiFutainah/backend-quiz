@@ -1,7 +1,9 @@
 package maids.quiz.salesms.repository;
 
-import maids.quiz.salesms.model.Client;
+import maids.quiz.salesms.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CategoryRepository extends JpaRepository<Client, Integer> {
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }

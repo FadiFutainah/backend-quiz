@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +35,11 @@ public class AuthenticationService {
     JwtService jwtService;
     @Autowired
     AuthenticationManager authenticationManager;
-
-    final ModelMapper modelMapper;
-    final PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    ModelMapper modelMapper;
 
     public AuthenticationService() {
-        this.passwordEncoder = new BCryptPasswordEncoder();
         this.modelMapper = new ModelMapper();
 //        addPasswordEncodingMapping();
     }

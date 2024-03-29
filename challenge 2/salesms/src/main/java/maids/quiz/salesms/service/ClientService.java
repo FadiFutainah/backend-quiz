@@ -1,9 +1,9 @@
 package maids.quiz.salesms.service;
 
-import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.auth.ChangePasswordRequest;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,16 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 
 @Service
-@RequiredArgsConstructor
-public class ClientService {
+public class ClientService extends CrudService<Client, Integer> {
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    ClientRepository repository;
 
-    private final PasswordEncoder passwordEncoder;
-    private final ClientRepository repository;
+
+    public ClientService(ClientRepository clientRepository) {
+        super(clientRepository);
+    }
+
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var client = (Client) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
