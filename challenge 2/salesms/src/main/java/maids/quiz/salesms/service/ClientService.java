@@ -3,7 +3,6 @@ package maids.quiz.salesms.service;
 import maids.quiz.salesms.dto.ResponseDto;
 import maids.quiz.salesms.dto.client.ClientReportDto;
 import maids.quiz.salesms.dto.client.UpdateClientDto;
-import maids.quiz.salesms.dto.sale.SalesReportDto;
 import maids.quiz.salesms.model.Client;
 import maids.quiz.salesms.repository.ClientRepository;
 import org.modelmapper.ModelMapper;
@@ -18,6 +17,7 @@ import java.util.List;
 public class ClientService extends CrudService<Client, Integer> {
     @Autowired
     SaleService saleService;
+    @Autowired
     ClientRepository clientRepository;
     ModelMapper modelMapper = new ModelMapper();
 

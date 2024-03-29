@@ -21,4 +21,13 @@ public class SaleTransactionService {
                 .map(result -> (Product) result[0])
                 .collect(Collectors.toList());
     }
+
+
+    public List<Product> productListByInventoryStatus() {
+        List<Object[]> results = saleTransactionRepository.findProductsOrderByLastTransactionDate();
+
+        return results.stream()
+                .map(result -> (Product) result[0])
+                .collect(Collectors.toList());
+    }
 }

@@ -1,7 +1,8 @@
 package maids.quiz.salesms.service;
 
-import maids.quiz.salesms.dto.product.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.product.ProductDto;
+import maids.quiz.salesms.dto.product.ProductReportDto;
 import maids.quiz.salesms.dto.product.UpdateProductDto;
 import maids.quiz.salesms.exception.CommonExceptions;
 import maids.quiz.salesms.model.Category;
@@ -13,13 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
 public class ProductService extends CrudService<Product, Integer> {
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    SaleTransactionService saleTransactionService;
     ModelMapper modelMapper = new ModelMapper();
 
     public ProductService(ProductRepository productRepository) {
@@ -50,12 +55,23 @@ public class ProductService extends CrudService<Product, Integer> {
         product.setCategories(getCategoriesFromIds(resource.getCategories()));
         Product savedProduct = lookupResource(id);
 //        TODO: improve on
-        if(product.getCategories() != null) savedProduct.setCategories(product.getCategories());
-        if(product.getName() != null) savedProduct.setName(product.getName());
-        if(product.getDescription() != null) savedProduct.setDescription(product.getDescription());
-        if(product.getPrice() != null) savedProduct.setPrice(product.getPrice());
-        if(product.getQuantity() != null) savedProduct.setQuantity(product.getQuantity());
+        if (product.getCategories() != null) savedProduct.setCategories(product.getCategories());
+        if (product.getName() != null) savedProduct.setName(product.getName());
+        if (product.getDescription() != null) savedProduct.setDescription(product.getDescription());
+        if (product.getPrice() != null) savedProduct.setPrice(product.getPrice());
+        if (product.getQuantity() != null) savedProduct.setQuantity(product.getQuantity());
 
         return super.add(savedProduct);
+    }
+
+
+    public ResponseEntity<ResponseDto<ProductReportDto>> report(Instant from, Instant to) {
+        List<Product> productListByInventoryStatus = saleTransactionService.productListByInventoryStatus();
+
+        ProductReportDto productReportDto = ProductReportDto.builder()
+                .productListByInventoryStatus(productListByInventoryStatus)
+                .build();
+
+        return ResponseDto.response(productReportDto);
     }
 }

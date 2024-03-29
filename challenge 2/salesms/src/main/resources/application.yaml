@@ -26,6 +26,8 @@ spring:
     active:
       - dev
 
+  main:
+    allow-circular-references: true
   application:
     name: salesms
   jpa:

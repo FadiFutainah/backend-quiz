@@ -13,4 +13,10 @@ public interface SaleTransactionRepository extends JpaRepository<SaleTransaction
             "GROUP BY st.product " +
             "ORDER BY count DESC")
     List<Object[]> findMostRepeatedProducts();
+
+    @Query("SELECT st.product, MAX(st.createdAt) AS lastTransactionDate " +
+            "FROM SaleTransaction st " +
+            "GROUP BY st.product " +
+            "ORDER BY lastTransactionDate DESC")
+    List<Object[]> findProductsOrderByLastTransactionDate();
 }

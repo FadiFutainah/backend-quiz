@@ -4,13 +4,18 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import maids.quiz.salesms.dto.product.ProductDto;
 import maids.quiz.salesms.dto.ResponseDto;
+import maids.quiz.salesms.dto.product.ProductReportDto;
 import maids.quiz.salesms.dto.product.UpdateProductDto;
+import maids.quiz.salesms.dto.sale.SalesReportDto;
 import maids.quiz.salesms.model.Product;
 import maids.quiz.salesms.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/product")
@@ -44,5 +49,13 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<String>> delete(@PathVariable Integer id) {
         return productService.delete(id);
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<ResponseDto<ProductReportDto>> report(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant to
+    ) {
+        return productService.report(from, to);
     }
 }
